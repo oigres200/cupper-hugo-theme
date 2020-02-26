@@ -8,20 +8,25 @@
     </h1>
 
     <div class="date">
-      {{ $dateFormat := $.Site.Params.dateFormat | default "Jan 2, 2006" }}
+      {{ $dateFormat := "" }}
+      {{ if (eq $.Language.Lang "es")  }}
+        {{ $dateFormat = "02-01-2006" }}
+      {{ else }}
+        {{ $dateFormat = "01-02-2006" }}
+      {{ end }}
       {{ $publishDate := .PublishDate }}
-      <strong aria-hidden="true">Publish date: </strong>{{ $publishDate.Format $dateFormat }}
+      <strong aria-hidden="true">{{ T "publishDate" }}: </strong>{{ $publishDate.Format $dateFormat }}
       {{ with .Lastmod }}
         {{ if gt . $publishDate }}
           <br>
-          <strong aria-hidden="true">Last updated: </strong>{{ .Format $dateFormat }}
+          <strong aria-hidden="true">{{ T "lastUpdated" }}: </strong>{{ .Format $dateFormat }}
         {{ end }}
       {{ end }}
     </div>
 
     {{ with .Params.tags }}
       <div class="tags">
-        <strong aria-hidden="true">Tags: </strong>
+        <strong aria-hidden="true">{{ T "tags" }}: </strong>
         <ul aria-label="tags">
           {{ range . }}
             <li>
